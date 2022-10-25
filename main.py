@@ -1,69 +1,61 @@
-from random import randint
 
-"""
-    multiplication quiz app
-"""
-
-print("-" * 50)
-print("\t\tWELCOME..")
-print("-" * 50, "\n")
+from tkinter import *
+import pyperclip
+import random
 
 
-def multi(i, j, r):
-    if r != "-1":
-        result = str(i * j)
-        if result == r:
-            print("\t\t***** Correct *****")
-        else:
-            print("\t!!! Wrong it was %s " % result)
-    else:
+root = Tk()
+root.geometry("400x400")
 
-        select()
+# declaring a variable of string type and this variable will be
+# used to store the password generated
+passstr = StringVar()
 
+# declaring a variable of integer type which will be used to
+# store the length of the password entered by the user
+passlen = IntVar()
 
-def start(rng_1, rng_2):
-    if rng_1 > 10:
-        x = 10
-    else:
-        x = 5
-    for i in range(0, x):
-        for j in range(0, x):
-            sayi_1 = randint(rng_1, rng_2)
-            sayi_2 = randint(rng_1, rng_2)
-            print("_" * 50, "\n")
-            print("\t%d x %d ? (exit = -1)" % (sayi_1, sayi_2))
-            sonuc = input("result >> ")
-            multi(sayi_1, sayi_2, sonuc)
+# setting the length of the password to zero initially
+passlen.set(0)
 
-            if i == 4 and j == 4:
-                print("\n *-- This level and you can jump to next level --*\n")
-                select()
+def generate():
+    pass1 = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+            'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+            'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D',
+            'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+            'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+            'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8',
+            '9', '0', ' ', '!', '@', '#', '$', '%', '^', '&',
+            '*', '(', ')']
 
+    password = ""
 
-def select():
-    print(" Please choice level (exit = -1) ?\n")
-    print("  1 - Easy ")
-    print("  2 - Medium ")
-    print("  3 - Hard")
-    print("  4 - Very Hard\n")
+    for x in range(passlen.get()):
+        password = password + random.choice(pass1)
+    passstr.set(password)
+def copytoclipboard():
+    random_password = passstr.get()
+    pyperclip.copy(random_password)
 
-    svy = input(" >> ")
+# Creating a text label widget
+Label(root, text="Password Generator Application", font="calibri 20 bold").pack()
 
-    if svy == "1":
-        start(1, 6)
+# Creating a text label widget
+Label(root, text="Enter password length").pack(pady=3)
 
-    elif svy == "2":
-        start(6, 12)
+# Creating a entry widget to take password length entered by the
+# user
+Entry(root, textvariable=passlen).pack(pady=3)
 
-    elif svy == "3":
-        start(12, 25)
+# button to call the generate function
+Button(root, text="Generate Password", command=generate).pack(pady=7)
 
-    elif svy == "4":
-        start(25, 100)
+# entry widget to show the generated password
+Entry(root, textvariable=passstr).pack(pady=3)
 
-    else:
-        exit(0)
+# button to call the copytoclipboard function
+Button(root, text="Copy to clipboard", command=copytoclipboard).pack()
 
-
-if __name__ == '__main__':
-    select()
+# mainloop() is an infinite loop used to run the application when
+# it's in ready state
+root.mainloop()
