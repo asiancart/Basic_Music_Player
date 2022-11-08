@@ -1,18 +1,46 @@
-#need to import pytube
-from pytube import YouTube
+gimport qrcode
+from tkinter import *
 
-#ask for the link from user
-link = input("Enter the link of YouTube video you want to download:  ")
-yt = YouTube(link)
+cp = Tk()
+cp.title('github.com/asiancart')
+cp.geometry('700x250')
+cp.config(bg='#e52165')
 
-#Showing details
-print("Title: ",yt.title)
-print("Number of views: ",yt.views)
-print("Length of video: ",yt.length)
-print("Rating of video: ",yt.rating)
+def generate():
+    img = qrcode.make(msg.get())
+    type(img)
+    img.save(f'{save_name.get()}.png')
+    Label(cp, text='File Saved!', bg='#e52165' , fg='black', font=('Arial Black', 8)).pack()
 
-#Getting the highest resolution possible and downloading
+def show():
+    img = qrcode.make(msg.get())
+    type(img)
+    img.show()
 
-yt.streams.get_highest_resolution().download()
+frame = Frame(cp, bg='#e52165')
+frame.pack(expand=True)
 
-print("Download completed!!")
+#------------------ENTER THE TEXT OR URL------------------
+
+Label(frame, text='Enter the Text or URL : ', font=('Arial Black', 16),
+      bg='#e52165').grid(row=0, column=0, sticky='w')
+
+msg = Entry(frame)
+msg.grid(row=0, column=1)
+
+#------------------ENTER THE FILE NAME------------------
+
+Label(frame, text='File Name(Save As) : ', font=('Arial Black', 16),
+      bg='#e52165').grid(row=1, column=0, sticky='w')
+
+save_name = Entry(frame)
+save_name.grid(row=1, column=1)
+
+#------------------BUTTONS TO SHOW OR SAVE QRCODE------------------
+
+btn = Button(cp, text='Show QR code', bd='5', command=show, width=15)
+btn.pack()
+btn = Button(cp, text='Save QR code', command=generate, bd='5', width=15)
+btn.pack()
+
+cp.mainloop()
